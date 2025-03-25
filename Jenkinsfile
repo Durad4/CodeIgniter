@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/username/CodeIgniter.git'
+                git branch: 'develop', url: 'https://github.com/Durad4/CodeIgniter.git'
             }
         }
 
