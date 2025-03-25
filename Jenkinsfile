@@ -14,9 +14,10 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-				sh '''
-				rm -rf vendor/ composer.lock
+		sh """
+      		rm -rf vendor/ composer.lock
                 composer install --no-dev --optimize-autoloader --no-scripts || true
+		"""
             }
         }
 
