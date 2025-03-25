@@ -23,17 +23,16 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                sh 'phpunit'
+                sh '''
+		if [ -f vendor/bin/phpunit ]; then
+  	            vendor/bin.phpunit
+	        else
+	 	    echo "PHPUnit not found!"
+       		    exit 1
+	     fi
+      	     '''
             }
-            post {
-                success {
-                    junit 'application/tests/results/*.xml'
-                }
-                failure {
-                    echo 'Tests failed!'
-                }
-            }
-        }
+	}
 
         stage('Deploy') {
             steps {
