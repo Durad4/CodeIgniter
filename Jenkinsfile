@@ -1,8 +1,8 @@
 pipeline {
-    agent any 
-
-    environment {
-        CI_ENV = 'production'
+    agent {
+        docker {
+            image 'php:8.1-cli'
+        }
     }
 
     stages {
@@ -14,28 +14,22 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
+                sh 'curl -sS https://getcomposer.org/installer | php'
+                sh 'mv composer.phar /usr/local/bin/composer'
+                sh 'chmod +x /usr/local/bin/composer'
                 sh 'composer install --no-dev --optimize-autoloader'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'phpunit'
-            }
-            post {
-                success {
-                    junit 'application/tests/results/*.xml'
-                }
-                failure {
-                    echo 'Tests failed!'
-                }
+                sh 'vendor/bin/phpunit'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo 'Deploying to production environment...'
-                // Tambahkan perintah deploy jika ada
+                echo 'Deploying...'
             }
         }
     }
