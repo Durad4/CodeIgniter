@@ -14,7 +14,9 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'composer install --no-dev --optimize-autoloader'
+				sh '''
+				rm -rf vendor/ composer.lock
+                composer install --no-dev --optimize-autoloader --no-scripts || true
             }
         }
 
